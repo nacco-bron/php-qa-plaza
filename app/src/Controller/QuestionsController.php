@@ -23,11 +23,7 @@ class QuestionsController extends AppController {
             $this->Questions->find(),
             ['order' => ['Questions.id' => 'DESC' ]]
         );
-
         $this->set(compact('questions'));
     }
-
-
-
 
 }
