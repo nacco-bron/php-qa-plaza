@@ -31,8 +31,6 @@ class Question extends Entity
         'user_id' => true,
         'body' => true,
         'created_at' => true,
-        'updated_at' => true,
-        'user' => true,
-        'answers' => true
+        'updated_at' => true
     ];
 }
