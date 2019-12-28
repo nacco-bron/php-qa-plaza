@@ -16,7 +16,7 @@
                 </h5>
                 <p class="card-text"><?= nl2br(h($question->body)) ?></p>
                 <p class="card-subtitle mb-2 text-muted">
-                    <small><?= h($question->created) ?></small>
+                    <small><?= h($question->created_at) ?></small>
                     <small>
                         <i class="fas fa-comment-dots"></i> <?= $this->Number->format($question->answered_count) ?>
                     </small>

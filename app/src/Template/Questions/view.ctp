@@ -8,7 +8,7 @@
             </h5>
             <p class="card-text"><?= nl2br(h($question->body)) ?></p>
             <p class="card-subtitle mb-2 text-muted">
-                <small><?= h($question->created) ?></small>
+                <small><?= h($question->created_at) ?></small>
                 <small><i class="fas fa-comment-dots"></i> <?= $this->Number->format($answers->count()) ?></small>
             </p>
         </div>
@@ -34,7 +34,7 @@
                     </h5>
                     <p class="card-text"><?= nl2br(h($answer->body)) ?></p>
                     <p class="card-subtitle mb-2 text-muted">
-                        <small><?= h($answer->created) ?></small>
+                        <small><?= h($answer->created_at) ?></small>
                         <?= $this->Form->postLink('削除する', ['controller' => 'Answers', 'action' => 'delete', $answer->id],
                             ['confirm' => '回答を削除します。よろしいですか？'], ['class' => 'card-link']) ?>
                     </p>

@@ -47,47 +47,24 @@ class QuestionsTable extends Table
         ]);
     }
 
-    // /**
-    //  * Default validation rules.
-    //  *
-    //  * @param \Cake\Validation\Validator $validator Validator instance.
-    //  * @return \Cake\Validation\Validator
-    //  */
-    // public function validationDefault(Validator $validator)
-    // {
-    //     $validator
-    //         ->nonNegativeInteger('id')
-    //         ->allowEmpty('id', 'create');
+    /**
+     * 回答付きの質問一覧を取得する
+     * 
+     * @return \Cake\ORM\Query 回答付き質問一覧クエリ
+     */
+    public function findQuestionsWithAnsweredCount()
+    {
+        $query = $this->find();
+        $query
+            ->select(['answered_count' => $query->func()->count('Answers.id')])
+            ->leftJoinWith('Answers')
+            ->group('Questions.id')
+            ->enableAutoFields(true);
 
-    //     $validator
-    //         ->scalar('body')
-    //         ->maxLength('body', 255)
-    //         ->requirePresence('body', 'create')
-    //         ->notEmpty('body');
+        return $query;
+    }
 
-    //     $validator
-    //         ->dateTime('created_at')
-    //         ->requirePresence('created_at', 'create')
-    //         ->notEmpty('created_at');
 
-    //     $validator
-    //         ->dateTime('updated_at')
-    //         ->allowEmpty('updated_at');
 
-    //     return $validator;
-    // }
 
-    // /**
-    //  * Returns a rules checker object that will be used for validating
-    //  * application integrity.
-    //  *
-    //  * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-    //  * @return \Cake\ORM\RulesChecker
-    //  */
-    // public function buildRules(RulesChecker $rules)
-    // {
-    //     $rules->add($rules->existsIn(['user_id'], 'Users'));
-
-    //     return $rules;
-    // }
 }
