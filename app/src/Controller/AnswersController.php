@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use App\Model\Entity\Answer;
 use Cake\Event\Event;
 
 /**
@@ -13,7 +14,6 @@ use Cake\Event\Event;
  */
 class AnswersController extends AppController
 {
-    const ANSWER_UPPER_LIMIT = 100;
 
     /**
      * @inheritdoc
@@ -37,7 +37,7 @@ class AnswersController extends AppController
                 ->where(['question_id' => $answer->question_id])
                 ->count();
 
-        if ($count >= self::ANSWER_UPPER_LIMIT) {
+        if ($count >= Answer::ANSWER_UPPER_LIMIT) {
             $this->Flash->error('回答の上限数に達しました');
             return $this->redirect(['controller' => 'Questions', 'action' => 'view', $answer->question_id]);
         }
@@ -48,7 +48,7 @@ class AnswersController extends AppController
         } else {
             $this->Flash->error('回答の投稿に失敗しました');
         }
-        
+
         return $this->redirect(['controller' => 'Questions', 'action' => 'view', $answer->question_id]);
     }
 

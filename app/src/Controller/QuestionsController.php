@@ -63,6 +63,7 @@ class QuestionsController extends AppController
                     ->all();
 
         $this->set(compact('question', 'answers', 'newAnswer'));
+        $this->render('/Questions/view');
     }
 
     /**
@@ -120,7 +121,7 @@ class QuestionsController extends AppController
                 ->where(['question_id' => $answer->question_id])
                 ->count();
 
-        if ($count >= self::ANSWER_UPPER_LIMIT) {
+        if ($count >= Answer::ANSWER_UPPER_LIMIT) {
             $this->Flash->error('回答の上限数に達しました');
             return $this->redirect(['action' => 'view', $answer->question_id]);
         }

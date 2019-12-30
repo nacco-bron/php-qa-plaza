@@ -18,6 +18,7 @@ use Cake\ORM\Entity;
  */
 class Answer extends Entity
 {
+    const ANSWER_UPPER_LIMIT = 100;
 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
