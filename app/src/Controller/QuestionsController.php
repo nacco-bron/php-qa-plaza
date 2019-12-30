@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use App\Model\Entity\Answer;
 
 /**
  * Questions Controller
@@ -44,10 +45,14 @@ class QuestionsController extends AppController
      */
     public function view(int $id)
     {
-        viewRendering($id);
+        $newAnswer = $this->Answers->newEntity([
+            'question_id' => $id,
+            'body' => ''
+        ]);
+        $this->viewRendering($id, $newAnswer);
     }
   
-    private function viewRendering(int $id)
+    private function viewRendering(int $id, Answer $newAnswer)
     {
         $question = $this->Questions->get($id);
         $answers = $this
@@ -57,7 +62,7 @@ class QuestionsController extends AppController
                     ->orderAsc('Answers.id')
                     ->all();
 
-        $this->set(compact('question', 'answers'));
+        $this->set(compact('question', 'answers', 'newAnswer'));
     }
 
     /**
