@@ -55,7 +55,7 @@ class QuestionsController extends AppController
 
         $this->set(compact('question', 'answers'));
     }
-
+  
     /**
      * 質問投稿画面/質問投稿処理
      *

@@ -48,6 +48,7 @@ class AnswersController extends AppController
         } else {
             $this->Flash->error('回答の投稿に失敗しました');
         }
+        
         return $this->redirect(['controller' => 'Questions', 'action' => 'view', $answer->question_id]);
     }
 

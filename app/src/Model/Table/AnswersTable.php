@@ -2,9 +2,9 @@
 namespace App\Model\Table;
 
 // use Cake\ORM\Query;
-// use Cake\ORM\RulesChecker;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-// use Cake\Validation\Validator;
+use Cake\Validation\Validator;
 
 /**
  * Answers Model
@@ -50,48 +50,37 @@ class AnswersTable extends Table
         // ]);
     }
 
-    // /**
-    //  * Default validation rules.
-    //  *
-    //  * @param \Cake\Validation\Validator $validator Validator instance.
-    //  * @return \Cake\Validation\Validator
-    //  */
-    // public function validationDefault(Validator $validator)
-    // {
-    //     $validator
-    //         ->nonNegativeInteger('id')
-    //         ->allowEmpty('id', 'create');
-
-    //     $validator
-    //         ->scalar('body')
-    //         ->maxLength('body', 255)
-    //         ->requirePresence('body', 'create')
-    //         ->notEmpty('body');
-
-    //     $validator
-    //         ->dateTime('created_at')
-    //         ->requirePresence('created_at', 'create')
-    //         ->notEmpty('created_at');
-
-    //     $validator
-    //         ->dateTime('updated_at')
-    //         ->allowEmpty('updated_at');
-
-    //     return $validator;
-    // }
-
-    // /**
-    //  * Returns a rules checker object that will be used for validating
-    //  * application integrity.
-    //  *
-    //  * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-    //  * @return \Cake\ORM\RulesChecker
-    //  */
-    // public function buildRules(RulesChecker $rules)
-    // {
-    //     $rules->add($rules->existsIn(['question_id'], 'Questions'));
-    //     $rules->add($rules->existsIn(['user_id'], 'Users'));
-
-    //     return $rules;
-    // }
+    /**
+     * バリデーションルールの定義
+     *
+     * @param \Cake\Validation\Validator $validator バリデーションインスタンス
+     * @return \Cake\Validation\Validator バリデーションインスタンス
+     */
+    public function validationDefault(Validator $validator)
+    {
+        $validator
+            ->nonNegativeInteger('id', 'IDが不正です')
+            ->allowEmpty('id', 'create', 'IDが不正です');
+        $validator
+            ->scalar('body', '回答内容が不正です')
+            ->requirePresence('body', 'create', '回答内容が不正です')
+            ->notEmpty('body', '回答内容は必ず入力してください')
+            ->maxLength('body', 140, '回答内容は140字以内で入力してください');
+        return $validator;
+    }
+    /**
+     * ルールチェッカーを作成する
+     *
+     * @param \Cake\ORM\RulesChecker $rules ルールチェッカーのオブジェクト
+     * @return \Cake\ORM\RulesChecker ルールチェッカーのオブジェクト
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->existsIn(
+            ['question_id'],
+            'Questions',
+            '質問が既に削除されているため回答することが出来ません'
+        ));
+        return $rules;
+    }
 }
