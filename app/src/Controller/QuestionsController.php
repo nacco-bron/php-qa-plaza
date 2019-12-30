@@ -46,8 +46,7 @@ class QuestionsController extends AppController
     public function view(int $id)
     {
         $newAnswer = $this->Answers->newEntity([
-            'question_id' => $id,
-            'body' => ''
+            'question_id' => $id
         ]);
         $this->viewRendering($id, $newAnswer);
     }
