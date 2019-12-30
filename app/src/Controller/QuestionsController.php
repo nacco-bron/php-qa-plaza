@@ -44,8 +44,12 @@ class QuestionsController extends AppController
      */
     public function view(int $id)
     {
+        viewRendering($id);
+    }
+  
+    private function viewRendering(int $id)
+    {
         $question = $this->Questions->get($id);
-
         $answers = $this
                     ->Answers
                     ->find()
@@ -55,7 +59,7 @@ class QuestionsController extends AppController
 
         $this->set(compact('question', 'answers'));
     }
-  
+
     /**
      * 質問投稿画面/質問投稿処理
      *
