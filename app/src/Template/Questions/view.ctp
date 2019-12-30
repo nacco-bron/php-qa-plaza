@@ -45,15 +45,14 @@
 </section>
 <section class="answer-post mb-5">
     <h2 class="mb-3"><i class="fas fa-comment-dots"></i> 回答する</h2>
-    <?php if ($answers->count() >= \App\Controller\AnswersController::ANSWER_UPPER_LIMIT): ?>
+    <?php if ($answers->count() >= \App\Model\Entity\Answer::ANSWER_UPPER_LIMIT): ?>
         <p class="text-center">回答数が上限に達しているためこれ以上回答することはできません</p>
     <?php else: ?>
-        <?= $this->Form->create($answer, ['url' => '/answers/add', 'type' => 'post']) ?>
+        <?= $this->Form->create($newAnswer, ['url' => '/questions/addAnswer', 'type' => 'post']) ?>
         <?php
         echo $this->Form->control('body', [
             'type' => 'textarea',
             'label' => false,
-            'value' => '',
             'maxLength' => 200
         ]);
         echo $this->Form->hidden('question_id', ['value' => $question->id]);

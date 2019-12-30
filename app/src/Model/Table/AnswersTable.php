@@ -63,7 +63,6 @@ class AnswersTable extends Table
             ->allowEmpty('id', 'create', 'IDが不正です');
         $validator
             ->scalar('body', '回答内容が不正です')
-            ->requirePresence('body', 'create', '回答内容が不正です')
             ->notEmpty('body', '回答内容は必ず入力してください')
             ->maxLength('body', 140, '回答内容は140字以内で入力してください');
         return $validator;
