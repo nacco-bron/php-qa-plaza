@@ -52,7 +52,6 @@
             </button>
 
             <div class="collapse navbar-collapse" id="Navber">
-            <?php if($this->request->getSession()->read('Auth.User.id')): ?>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <?= $this->Html->link('質問一覧',
@@ -63,7 +62,6 @@
                             ['controller' => 'Questions', 'action' => 'add'], ['class' => 'nav-link']) ?>
                     </li>
                 </ul>
-            <?php endif; ?>
                 <ul class="navbar-nav ml-auto">
             <?php if($this->request->getSession()->read('Auth.User.id')): ?>
                     <li class="nav-item">
