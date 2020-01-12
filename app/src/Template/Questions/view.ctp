@@ -1,3 +1,4 @@
+<?php $login_user = $this->request->getSession()->read('Auth.User.id') ?>
 <h2 class="mb-3"><i class="fas fa-flag"></i> 質問</h2>
 
 <section class="question">
@@ -35,8 +36,10 @@
                     <p class="card-text"><?= nl2br(h($answer->body)) ?></p>
                     <p class="card-subtitle mb-2 text-muted">
                         <small><?= h($answer->created_at) ?></small>
+                        <?php if($login_user == $answer->user->id): ?>
                         <?= $this->Form->postLink('削除する', ['controller' => 'Answers', 'action' => 'delete', 'method' => 'delete', $answer->id],
                             ['confirm' => '回答を削除します。よろしいですか？'], ['class' => 'card-link']) ?>
+                        <?php endif; ?>
                     </p>
                 </div>
             </div>
@@ -45,7 +48,7 @@
 </section>
 <section class="answer-post mb-5">
     <h2 class="mb-3"><i class="fas fa-comment-dots"></i> 回答する</h2>
-    <?php if ($this->request->getSession()->read('Auth.User.id')): ?>
+    <?php if ($login_user): ?>
         <?php if ($answers->count() >= \App\Model\Entity\Answer::ANSWER_UPPER_LIMIT): ?>
             <p class="text-center">回答数が上限に達しているためこれ以上回答することはできません</p>
         <?php else: ?>

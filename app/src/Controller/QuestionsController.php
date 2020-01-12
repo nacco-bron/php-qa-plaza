@@ -87,7 +87,7 @@ class QuestionsController extends AppController
     }
 
     /**
-     * Delete method
+     * 質問削除処理
      *
      * @param string|null $id 質問ID
      * @return \Cake\Http\Response|null 回答削除後に質問詳細画面に遷移する
@@ -97,7 +97,10 @@ class QuestionsController extends AppController
         $this->request->allowMethod(['post']);
 
         $question = $this->Questions->get($id);
-        // @TODO 質問を削除できるのは質問投稿者のみとする
+        if ($question->user_id != $this->Auth->user('id')) {
+            $this->Flash->error('他のユーザーの質問を削除することはできません');
+            return $this->redirect(['action' => 'index']);
+        }
 
         if ($this->Questions->delete($question)) {
             $this->Flash->success('質問を削除しました');

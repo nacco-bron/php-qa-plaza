@@ -1,3 +1,4 @@
+<?php $login_user = $this->request->getSession()->read('Auth.User.id') ?>
 <h2 class="mb-3"><i class="fas fa-list"></i> 質問一覧</h2>
 
 <?php if ($questions->isEmpty()): ?>
@@ -22,8 +23,10 @@
                     </small>
                 </p>
                 <?= $this->Html->link('詳細へ', ['action' => 'view', $question->id], ['class' => 'card-link']) ?>
+                <?php if($login_user == $question->user->id): ?>
                 <?= $this->Form->postLink('削除する', ['action' => 'delete', $question->id],
                     ['confirm' => '質問を削除します。よろしいですか？'], ['class' => 'card-link']) ?>
+                <?php endif; ?>
             </div>
         </div>
     <?php endforeach; ?>
