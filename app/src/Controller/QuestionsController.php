@@ -30,7 +30,7 @@ class QuestionsController extends AppController
     public function index()
     {
         $questions = $this->paginate(
-            $this->Questions->findQuestionsWithAnsweredCount(),
+            $this->Questions->findQuestionsWithAnsweredCount()->contain(['Users']),
             ['order' => ['Questions.id' => 'DESC' ]]
         );
 
@@ -53,11 +53,12 @@ class QuestionsController extends AppController
   
     private function viewRendering(int $id, Answer $newAnswer)
     {
-        $question = $this->Questions->get($id);
+        $question = $this->Questions->get($id, ['contain' => ['Users']]);
         $answers = $this
                     ->Answers
                     ->find()
                     ->where(['Answers.question_id' => $id])
+                    ->contain(['Users'])
                     ->orderAsc('Answers.id')
                     ->all();
 
@@ -75,7 +76,7 @@ class QuestionsController extends AppController
         $question = $this->Questions->newEntity();
         if ($this->request->is('post')) {
             $question = $this->Questions->patchEntity($question, $this->request->getData());
-            $question->user_id = 1; // @TODO ユーザ管理機能実装時に修正する
+            $question->user_id = $this->Auth->user('id');
             if ($this->Questions->save($question)) {
                 $this->Flash->success('質問を投稿しました');
                 return $this->redirect(['action' => 'index']);
@@ -124,7 +125,7 @@ class QuestionsController extends AppController
             $this->Flash->error('回答の上限数に達しました');
             return $this->redirect(['action' => 'view', $answer->question_id]);
         }
-        $answer->user_id = 1; // @TODO ユーザ管理機能実装後に修正する
+        $answer->user_id = $this->Auth->user('id');
 
         if (!$this->Answers->save($answer)) {
             $this->Flash->error('回答の投稿に失敗しました');
